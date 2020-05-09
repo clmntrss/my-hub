@@ -3,14 +3,12 @@ const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const util = require('util');
+const request = require('request');
 
 // Youtube Downloader
 const fs = require('fs');
 const readline = require('readline');
 const ytdl = require('ytdl-core');
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-const ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
 app.use(bodyParser.json());
@@ -34,6 +32,14 @@ app.listen(process.env.PORT || 8080, () => {
 
 const regex = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/;
 const output = (name) => path.resolve('download', `${name}.mp4`);
+const outputThumbnail = (name) =>
+  path.resolve('public/screenshot', `${name}.png`);
+
+const download = (url, path, callback) => {
+  request.head(url, (err, res, body) => {
+    request(url).pipe(fs.createWriteStream(path)).on('close', callback);
+  });
+};
 
 app.post('/download', async (req, res) => {
   const body = req.body;
@@ -44,6 +50,8 @@ app.post('/download', async (req, res) => {
   if (regex.test(url)) {
     ytdl.getInfo(url, (err, info) => {
       if (err) throw err;
+      const videoTitle = info.title;
+      const titleClean = videoTitle.replace(/\s+/g, '-').toLowerCase();
       ytdl(url, {
         format: 'mp4',
       })
@@ -74,21 +82,14 @@ app.post('/download', async (req, res) => {
         })
         .on('end', () => {
           process.stdout.write('\n\n');
-          console.log(
-            info.player_response.videoDetails.thumbnail.thumbnails[3].url
-          );
-          // take screenshot for thumbnail
-          new ffmpeg(`download/${info.title}.mp4`).takeScreenshots(
-            {
-              count: 1,
-              filename: `${info.title}.png`,
-              timemarks: ['10'], // number of seconds
-            },
-            'screenshot',
-            function (err) {
-              console.log('screenshots were saved');
+          download(
+            info.player_response.videoDetails.thumbnail.thumbnails[3].url,
+            outputThumbnail(titleClean),
+            () => {
+              console.log('Thumbnail downloaded');
             }
           );
+          // take screenshot for thumbnail
           res.status(200).send({ status: 'success' });
         })
         .pipe(fs.createWriteStream(output(info.title)));

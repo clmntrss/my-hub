@@ -6,8 +6,10 @@ const VideosList = ({ videos }) => (
     {videos &&
       videos.map((video, index) => {
         const videoName = video.replace(/\.[^/.]+$/, '');
+        const titleClean = videoName.replace(/\s+/g, '-').toLowerCase();
         return (
           <VideoContainer>
+            <img src={`/screenshot/${titleClean}.png`} />
             <VideoTitle>{videoName}</VideoTitle>
           </VideoContainer>
         );

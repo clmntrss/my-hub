@@ -12,7 +12,7 @@ function Home() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        url: 'https://www.youtube.com/watch?v=XBDT2fDiSrk&t=0s',
+        url: 'https://www.youtube.com/watch?v=t64za1BSzpo',
       }),
     });
     const content = await response.json();
