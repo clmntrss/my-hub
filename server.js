@@ -2,11 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
+const util = require('util');
 
 // Youtube Downloader
 const fs = require('fs');
 const readline = require('readline');
 const ytdl = require('ytdl-core');
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
 app.use(bodyParser.json());
@@ -34,7 +38,6 @@ const output = (name) => path.resolve('download', `${name}.mp4`);
 app.post('/download', async (req, res) => {
   const body = req.body;
   const url = body.url;
-  const video = ytdl(url);
   let starttime;
 
   res.header('Content-Disposition', 'attachment; filename="video.mp4"');
@@ -71,25 +74,59 @@ app.post('/download', async (req, res) => {
         })
         .on('end', () => {
           process.stdout.write('\n\n');
-          res.status(200).send('Dl end');
+          console.log(
+            info.player_response.videoDetails.thumbnail.thumbnails[3].url
+          );
+          // take screenshot for thumbnail
+          new ffmpeg(`download/${info.title}.mp4`).takeScreenshots(
+            {
+              count: 1,
+              filename: `${info.title}.png`,
+              timemarks: ['10'], // number of seconds
+            },
+            'screenshot',
+            function (err) {
+              console.log('screenshots were saved');
+            }
+          );
+          res.status(200).send({ status: 'success' });
         })
         .pipe(fs.createWriteStream(output(info.title)));
     });
   }
 });
 
-// List all video downloaded
+// List all video downloaded recently
 
-app.get('/downloaded-video', async (req, res) => {
-  const videoFolder = './download';
-  var data = [];
-  fs.readdir(videoFolder, (err, files) => {
-    files.forEach((file) => {
-      console.log(file);
-      data.push(file);
-    });
-    res.send(data);
-  });
+app.get('/latest-download', async (req, res) => {
+  const readdirAsync = util.promisify(fs.readdir);
+  const statAsync = util.promisify(fs.stat);
+
+  async function readdirChronoSorted(dirpath, order) {
+    order = order || 1;
+    const files = await readdirAsync(dirpath);
+    const stats = await Promise.all(
+      files.map((filename) =>
+        statAsync(path.join(dirpath, filename)).then((stat) => ({
+          filename,
+          stat,
+        }))
+      )
+    );
+    return stats
+      .sort((a, b) => order * (b.stat.mtime.getTime() - a.stat.mtime.getTime()))
+      .map((stat) => stat.filename);
+  }
+
+  (async () => {
+    try {
+      const dirpath = path.join('./download');
+      const response = await readdirChronoSorted(dirpath);
+      res.status(200).send(response);
+    } catch (err) {
+      console.log(err);
+    }
+  })();
 });
 
 // Lib Genesis

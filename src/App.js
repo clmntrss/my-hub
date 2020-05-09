@@ -12,36 +12,38 @@ import LibraryGenesis from './pages/LibraryGenesis';
 import Pomodoro from './pages/Pomodoro';
 import Evernote from './pages/Evernote';
 
+import { RootContainer } from './styles/home';
+
 const Main = () => (
-  <section>
-    <Switch>
-      <Route exatch path="/youtube-downloader">
-        <YoutubeDownloader />
-      </Route>
-      <Route exact path="/youtube-search">
-        <YoutubeSearch />
-      </Route>
-      <Route exact path="/lib-gen">
-        <LibraryGenesis />
-      </Route>
-      <Route exact path="/pomodoro">
-        <Pomodoro />
-      </Route>
-      <Route exact path="/evernote">
-        <Evernote />
-      </Route>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route path="*">Route not found</Route>
-    </Switch>
-  </section>
+  <Switch>
+    <Route exatch path="/youtube-downloader">
+      <YoutubeDownloader />
+    </Route>
+    <Route exact path="/youtube-search">
+      <YoutubeSearch />
+    </Route>
+    <Route exact path="/lib-gen">
+      <LibraryGenesis />
+    </Route>
+    <Route exact path="/pomodoro">
+      <Pomodoro />
+    </Route>
+    <Route exact path="/evernote">
+      <Evernote />
+    </Route>
+    <Route exact path="/">
+      <Home />
+    </Route>
+    <Route path="*">Route not found</Route>
+  </Switch>
 );
 
 const App = () => (
   <div className="App">
     <Header />
-    <Main />
+    <RootContainer>
+      <Main />
+    </RootContainer>
   </div>
 );
 

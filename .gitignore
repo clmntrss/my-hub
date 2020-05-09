@@ -14,6 +14,7 @@
 # download
 
 /download
+/screenshot
 
 # misc
 .DS_Store

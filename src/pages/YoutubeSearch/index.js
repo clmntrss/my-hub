@@ -2,7 +2,7 @@ import React from 'react';
 
 function YoutubeSearch() {
   const getPlan = async () => {
-    const response = await fetch('/downloaded-video');
+    const response = await fetch('/latest-download');
     const json = await response.json();
     console.log(json);
   };
