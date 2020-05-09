@@ -11,6 +11,10 @@
 # production
 /build
 
+# download
+
+/download
+
 # misc
 .DS_Store
 .env.local
