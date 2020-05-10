@@ -9,8 +9,9 @@ export const Container = styled.div`
 
 export const VideoContainer = styled.div`
   display: flex;
-  flex-basis: 30%;
+  flex-basis: 25%;
   text-align: initial;
+  flex-direction: column;
 `;
 
 export const VideoTitle = styled.h4`

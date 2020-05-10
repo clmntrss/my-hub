@@ -4,22 +4,6 @@ import { Container } from '../../styles/home';
 
 function Home() {
   const [latestDownload, setLatestDownload] = useState({});
-  const test = async () => {
-    const response = await fetch('/download', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: 'https://www.youtube.com/watch?v=t64za1BSzpo',
-      }),
-    });
-    const content = await response.json();
-    if (content.status === 'success') {
-      console.log('download réussi');
-    }
-  };
 
   const getLatestDownload = async () => {
     const response = await fetch('/latest-download');
@@ -33,7 +17,6 @@ function Home() {
 
   return (
     <Container>
-      <button onClick={test}>test</button>
       <p>Latest video downloads</p>
       <VideosList videos={latestDownload.lastVideos} />
     </Container>

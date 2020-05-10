@@ -9,7 +9,10 @@ const VideosList = ({ videos }) => (
         const titleClean = videoName.replace(/\s+/g, '-').toLowerCase();
         return (
           <VideoContainer>
-            <img src={`/screenshot/${titleClean}.png`} />
+            <img
+              src={`/screenshot/${titleClean}.png`}
+              alt={`${titleClean} thumbnail`}
+            />
             <VideoTitle>{videoName}</VideoTitle>
           </VideoContainer>
         );
