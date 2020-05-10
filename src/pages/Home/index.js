@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import useDocumentTitle from '@rehooks/document-title';
+
 import VideosList from '../../components/VideosList';
 import { Container } from '../../styles/home';
 
 function Home() {
   const [latestDownload, setLatestDownload] = useState({});
+  useDocumentTitle('clmntrss | Tools');
 
   const getLatestDownload = async () => {
     const response = await fetch('/latest-download');

@@ -1,7 +1,9 @@
 import React from 'react';
+import useDocumentTitle from '@rehooks/document-title';
 import { Container } from '../../styles/home';
 
 function YoutubeDownloader() {
+  useDocumentTitle('clmntrss | Youtube Downloader');
   const test = async () => {
     const response = await fetch('/download', {
       method: 'POST',

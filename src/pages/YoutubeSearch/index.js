@@ -1,6 +1,8 @@
 import React from 'react';
+import useDocumentTitle from '@rehooks/document-title';
 
 function YoutubeSearch() {
+  useDocumentTitle('clmntrss | Youtube Search');
   const getPlan = async () => {
     const response = await fetch('/latest-download');
     const json = await response.json();

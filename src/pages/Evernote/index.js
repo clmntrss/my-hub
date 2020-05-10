@@ -1,6 +1,8 @@
 import React from 'react';
+import useDocumentTitle from '@rehooks/document-title';
 
 function Evernote() {
+  useDocumentTitle('clmntrss | Evernote');
   const test = () => {
     console.log('test');
     fetch('/download?URL=https://youtu.be/wizpDlxAzQs', {

@@ -1,6 +1,9 @@
 import React from 'react';
+import useDocumentTitle from '@rehooks/document-title';
 
 function LibraryGenesis() {
+  useDocumentTitle('clmntrss | LibraryGenesis');
+
   const test = () => {
     console.log('test');
     fetch('/download?URL=https://youtu.be/wizpDlxAzQs', {
