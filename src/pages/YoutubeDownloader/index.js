@@ -12,7 +12,7 @@ function YoutubeDownloader() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        url: 'https://youtu.be/vQQ8fsbb-lg',
+        url: 'https://www.youtube.com/watch?v=ISNlIRxnyg0',
       }),
     });
     const content = await response.json();
@@ -24,7 +24,7 @@ function YoutubeDownloader() {
   return (
     <Container>
       <input type="text" placeholder="Rentrez l'url de la vvidéo youtube" />
-      <button>Download</button>
+      <button onClick={() => test()}>Download</button>
     </Container>
   );
 }
