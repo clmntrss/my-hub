@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Mousetrap from 'mousetrap';
 import useDocumentTitle from '@rehooks/document-title';
-import useInterval from '../../hooks/useInterval';
 
 const Pomodoro = () => {
   useDocumentTitle('clmntrss | Pomodoro');
@@ -19,7 +18,7 @@ const Pomodoro = () => {
     setDefaultTime();
     startShortcuts();
     Notification.requestPermission();
-  }, []);
+  }, [setDefaultTime, startShortcuts]);
 
   const elapseTime = () => {
     if (pomodoroInfo.time === 0) {
@@ -51,19 +50,9 @@ const Pomodoro = () => {
     ];
   };
 
-  const formatType = (timeType) => {
-    let timeTypes = getFormatTypes();
-    for (let i = 0; i < timeTypes.length; i++) {
-      let timeObj = timeTypes[i];
-      if (timeObj.time === timeType) {
-        return timeObj.type;
-      }
-    }
-    return null;
-  };
 
   //TODO : check this for interval
-  const restartInterval = () => {};
+  const restartInterval = () => { };
 
   const play = () => {
     if (pomodoroInfo.play) return;
@@ -73,7 +62,7 @@ const Pomodoro = () => {
 
   //TODO : check this for interval
 
-  const reset = (resetFor) => {};
+  const reset = (resetFor) => { };
 
   const togglePlay = () => {
     if (pomodoroInfo.play) return reset();
