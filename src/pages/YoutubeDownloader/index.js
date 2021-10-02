@@ -23,7 +23,7 @@ function YoutubeDownloader() {
 
   return (
     <Container>
-      <input type="text" placeholder="Rentrez l'url de la vvidéo youtube" />
+      <input type="text" placeholder="Rentrez l'url de la vidéo youtube" />
       <button onClick={() => test()}>Download</button>
     </Container>
   );
