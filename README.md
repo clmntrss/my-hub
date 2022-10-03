@@ -6,7 +6,7 @@ This app is a toolbox
 
 ## Available Scripts
 
-In the project directory, you can ru
+In the project directory, you can run
 
 ### `yarn start`
 
