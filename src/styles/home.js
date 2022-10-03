@@ -12,4 +12,5 @@ export const Container = styled.div`
   flex-direction: column;
   text-align: justify;
   font-size: 15pt;
+  line-height: 1.5;
 `;
