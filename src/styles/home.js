@@ -4,6 +4,7 @@ export const RootContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin: 50px 300px;
+  padding:0;
 `;
 
 export const Container = styled.div`
